@@ -1,7 +1,7 @@
 #include "log.h"
 #include "cannon.h"
 
-#define RES(f) "../res/" f
+#define RES(f) "./res/" f
 
 Cannon::Cannon() {
   rotation = 0;
