@@ -1,15 +1,13 @@
 CC := g++
 
 CFLAGS := -g -Wall
-LDFLAGS := -lsfml-graphics -lsfml-system
+LDFLAGS := -lm -lsfml-graphics -lsfml-system
 
 EXEC := a.out
 EXPORT := export.tar.gz
 DIST := $(wildcard *)
 
-all: src_all res_all $(EXEC)
-
-$(EXEC): $(src_EXEC)
+all: src_all res_all
 	cp -a $(src_EXEC) $(EXEC)
 
 clean: src_clean res_clean

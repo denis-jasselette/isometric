@@ -1,3 +1,4 @@
+#include <cmath>
 #include "log.h"
 #include "cannon.h"
 
@@ -26,21 +27,34 @@ void Cannon::setMove(Move::Type type) {
 }
 
 void Cannon::setRotation(float rotation) {
-  while (rotation > 360)
-    rotation -= 360;
+  this->rotation = clampAngle(rotation);
+}
 
-  this->rotation = rotation;
+float Cannon::clampAngle(float angle) {
+  while (angle < 0)
+    angle += 360;
+
+  return fmod(angle, 360);
 }
 
 void Cannon::update() {
-  if (move & Move::FORWARD)
-    sprite->Move(1, 0);
-  if (move & Move::BACKWARD)
-    sprite->Move(-1, 0);
   if (move & Move::TURN_CCW)
     setRotation(rotation + 1);
   if (move & Move::TURN_CW)
     setRotation(rotation - 1);
+
+  int direction = 0;
+  if (move & Move::FORWARD)
+    direction++;
+  if (move & Move::BACKWARD)
+    direction--;
+
+  if (direction == 0)
+    return;
+
+  float angle = (direction > 0)? rotation : rotation + 180;
+  float rad_angle = M_PI * angle / 180;
+  sprite->Move(cos(rad_angle), -sin(rad_angle));
 }
 
 int Cannon::getIndex() {

@@ -20,6 +20,7 @@ class Cannon {
     void paint(sf::RenderWindow*);
 
   private:
+    float clampAngle(float);
     void setRotation(float);
     int getIndex();
     sf::IntRect getIndexSubRect(int);
