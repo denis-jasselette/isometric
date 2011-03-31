@@ -3,7 +3,8 @@
 
 Game::Game() {
   window = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "Sprite test");
-  cannon = new Cannon();
+  imageMgr = new ImageManager();
+  cannon = new Cannon(imageMgr);
 }
 
 Game::~Game() {
@@ -51,8 +52,10 @@ void Game::paint() {
 
 void Game::onKeyPressed(sf::Event evt) {
   log("key pressed");
+  cannon->switchMove(true);
 }
 
 void Game::onKeyReleased(sf::Event evt) {
   log("key released");
+  cannon->switchMove(false);
 }

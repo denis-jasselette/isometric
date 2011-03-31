@@ -2,6 +2,7 @@
 #define	_GAME_H_
 
 #include <SFML/Graphics.hpp>
+#include "imageManager.h"
 #include "cannon.h"
 
 class Game {
@@ -18,6 +19,7 @@ class Game {
     void onKeyReleased(sf::Event);
 
     sf::RenderWindow *window;
+    ImageManager *imageMgr;
     Cannon *cannon;
 };
 

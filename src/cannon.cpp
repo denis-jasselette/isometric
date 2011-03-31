@@ -1,25 +1,24 @@
 #include "log.h"
 #include "cannon.h"
 
-#define RES(f) "./res/" f
-
-Cannon::Cannon() {
+Cannon::Cannon(ImageManager *imageMgr) {
+  inMove = false;
   rotation = 0;
   frameWidth = 32;
 
-  sf::Image *image = new sf::Image();//TODO: replace with ImageManager
-  if (!image->LoadFromFile(RES("cannon.png"))) {
-    log("Error: Loading of `cannon.png' failed");
-  }
-
+  sf::Image *image = imageMgr->get("cannon");
   sprite = new sf::Sprite(*image);
+  sprite->SetPosition(400, 300);//FIXME
 
   nbDirections = image->GetWidth() / frameWidth;
 }
 
 Cannon::~Cannon() {
-  delete sprite->GetImage();
   delete sprite;
+}
+
+void Cannon::switchMove(bool value) {
+  inMove = value;
 }
 
 void Cannon::setRotation(float rotation) {
@@ -30,7 +29,9 @@ void Cannon::setRotation(float rotation) {
 }
 
 void Cannon::update() {
-  setRotation(rotation + 1);
+  //setRotation(rotation + 1);
+  if (inMove)
+    sprite->Move(1, 0);
 }
 
 int Cannon::getIndex() {
@@ -50,13 +51,10 @@ sf::IntRect Cannon::getSubRect() {
 
 void Cannon::selectFrame() {
   sf::IntRect visibleRect = getSubRect();
-  /*sprite->SetCenter(visibleRect.Left + visibleRect.GetWidth() / 2,
-      visibleRect.Top + visibleRect.GetHeight() / 2);*/
   sprite->SetSubRect(getSubRect());
 }
 
 void Cannon::paint(sf::RenderWindow *window) {
   selectFrame();
-  sprite->SetPosition(window->GetWidth() / 2, window->GetHeight() / 2);
   window->Draw(*sprite);
 }

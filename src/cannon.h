@@ -2,11 +2,13 @@
 #define _CANNON_H_
 
 #include <SFML/Graphics.hpp>
+#include "imageManager.h"
 
 class Cannon {
   public:
-    Cannon();
+    Cannon(ImageManager*);
     ~Cannon();
+    void switchMove(bool);
     void update();
     void paint(sf::RenderWindow*);
 
@@ -17,6 +19,7 @@ class Cannon {
     sf::IntRect getSubRect();
     void selectFrame();
 
+    bool inMove;
     float rotation;
     int frameWidth;
     int nbDirections;
