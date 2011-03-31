@@ -17,7 +17,7 @@ distclean: clean src_distclean res_distclean
 	rm -rf $(EXPORT)
 
 dist: distclean
-	tar gzf $(EXPORT) $(DIST)
+	tar czf $(EXPORT) $(DIST)
 
 DIR := src
 include src/Rules.mk
