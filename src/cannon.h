@@ -4,11 +4,18 @@
 #include <SFML/Graphics.hpp>
 #include "imageManager.h"
 
+namespace Move {
+    enum Type {
+      NONE = 0, FORWARD = 1, BACKWARD = 2, TURN_CW = 4, TURN_CCW = 8
+    };
+}
+
 class Cannon {
   public:
     Cannon(ImageManager*);
     ~Cannon();
-    void switchMove(bool);
+    Move::Type getMove();
+    void setMove(Move::Type);
     void update();
     void paint(sf::RenderWindow*);
 
@@ -19,7 +26,7 @@ class Cannon {
     sf::IntRect getSubRect();
     void selectFrame();
 
-    bool inMove;
+    Move::Type move;
     float rotation;
     int frameWidth;
     int nbDirections;

@@ -2,7 +2,7 @@
 #include "cannon.h"
 
 Cannon::Cannon(ImageManager *imageMgr) {
-  inMove = false;
+  move = Move::NONE;
   rotation = 0;
   frameWidth = 32;
 
@@ -17,8 +17,12 @@ Cannon::~Cannon() {
   delete sprite;
 }
 
-void Cannon::switchMove(bool value) {
-  inMove = value;
+Move::Type Cannon::getMove() {
+  return move;
+}
+
+void Cannon::setMove(Move::Type type) {
+  move = type;
 }
 
 void Cannon::setRotation(float rotation) {
@@ -29,9 +33,14 @@ void Cannon::setRotation(float rotation) {
 }
 
 void Cannon::update() {
-  //setRotation(rotation + 1);
-  if (inMove)
+  if (move & Move::FORWARD)
     sprite->Move(1, 0);
+  if (move & Move::BACKWARD)
+    sprite->Move(-1, 0);
+  if (move & Move::TURN_CCW)
+    setRotation(rotation + 1);
+  if (move & Move::TURN_CW)
+    setRotation(rotation - 1);
 }
 
 int Cannon::getIndex() {

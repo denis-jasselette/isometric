@@ -51,11 +51,41 @@ void Game::paint() {
 }
 
 void Game::onKeyPressed(sf::Event evt) {
-  log("key pressed");
-  cannon->switchMove(true);
+  Move::Type base = cannon->getMove();
+  switch (evt.Key.Code) {
+    case sf::Key::Right:
+      cannon->setMove((Move::Type)(base | Move::FORWARD));
+      break;
+    case sf::Key::Left:
+      cannon->setMove((Move::Type)(base | Move::BACKWARD));
+      break;
+    case sf::Key::Up:
+      cannon->setMove((Move::Type)(base | Move::TURN_CCW));
+      break;
+    case sf::Key::Down:
+      cannon->setMove((Move::Type)(base | Move::TURN_CW));
+      break;
+    default:
+      break;
+  }
 }
 
 void Game::onKeyReleased(sf::Event evt) {
-  log("key released");
-  cannon->switchMove(false);
+  Move::Type base = cannon->getMove();
+  switch (evt.Key.Code) {
+    case sf::Key::Right:
+      cannon->setMove((Move::Type)(base & ~Move::FORWARD));
+      break;
+    case sf::Key::Left:
+      cannon->setMove((Move::Type)(base & ~Move::BACKWARD));
+      break;
+    case sf::Key::Up:
+      cannon->setMove((Move::Type)(base & ~Move::TURN_CCW));
+      break;
+    case sf::Key::Down:
+      cannon->setMove((Move::Type)(base & ~Move::TURN_CW));
+      break;
+    default:
+      break;
+  }
 }
