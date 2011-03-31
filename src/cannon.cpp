@@ -63,7 +63,7 @@ int Cannon::getIndex() {
 }
 
 sf::IntRect Cannon::getIndexSubRect(int index) {
-  index = (nbDirections - index) % nbDirections;
+  index = (nbDirections - index - 1) % nbDirections;
   int left = index * frameWidth;
   return sf::IntRect(left, 0, left + frameWidth, (int)sprite->GetSize().y);
 }
