@@ -6,7 +6,7 @@
 #define SET_WIDTH 20
 
 Game::Game() {
-  window = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "Sprite test");
+  window = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "Sprite test", sf::Style::Close);
   imageMgr = new ImageManager();
   cannon = new Cannon(imageMgr);
 
@@ -67,7 +67,7 @@ void Game::update() {
 }
 
 void Game::paint() {
-  window->Clear(sf::Color::White);
+  window->Clear(sf::Color::Black);
 
   for (int i = 0; i < SET_HEIGHT; i++) {
     for (int j = 0; j < SET_WIDTH; j++)

@@ -9,8 +9,6 @@
 
 Tile::Tile(ImageManager *imageMgr) : imageMgr(imageMgr) {
   sprite = new sf::Sprite();
-  sprite->SetPosition(400, 300);//FIXME
-
   setImage("grass");//FIXME
 }
 
