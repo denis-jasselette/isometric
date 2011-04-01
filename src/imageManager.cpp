@@ -26,6 +26,7 @@ sf::Image *ImageManager::get(std::string name) {
       return NULL;
     }
 
+    image->SetSmooth(false);
     pool[name] = image;
     return image;
   }
