@@ -5,6 +5,7 @@ Game::Game() {
   window = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "Sprite test");
   view = window->GetDefaultView();
   center = view.GetCenter();
+  window->SetView(view);
 
   imageMgr = new ImageManager();
   cannon = new Cannon(imageMgr);
@@ -28,6 +29,9 @@ void Game::run() {
         case sf::Event::Closed:
           running = false;
           break;
+        case sf::Event::Resized:
+          onResized(evt);
+          break;
         case sf::Event::KeyPressed:
           onKeyPressed(evt);
           break;
@@ -49,14 +53,18 @@ void Game::run() {
 }
 
 void Game::update() {
+  view.SetCenter(center);
   cannon->update();
 }
 
 void Game::paint() {
-  view.SetCenter(center);
   window->Clear(sf::Color::Black);
   set->paint(window);
   cannon->paint(window);
+}
+
+void Game::onResized(sf::Event evt) {
+  view.SetHalfSize(sf::Vector2f(evt.Size.Width / 2.0, evt.Size.Height / 2.0));
 }
 
 void Game::onKeyPressed(sf::Event evt) {

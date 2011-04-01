@@ -16,6 +16,7 @@ class Game {
     void update();
     void paint();
 
+    void onResized(sf::Event);
     void onKeyPressed(sf::Event);
     void onKeyReleased(sf::Event);
 
