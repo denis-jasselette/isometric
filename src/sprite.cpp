@@ -22,6 +22,14 @@ void Sprite::setImage(std::string name) {
   nbDirections = image->GetWidth() / frameWidth;
 }
 
+void Sprite::setPosition(sf::Vector2f pos) {
+  sprite->SetPosition(pos);
+}
+
+void Sprite::setPosition(float x, float y) {
+  sprite->SetPosition(x, y);
+}
+
 Move::Type Sprite::getMove() {
   return move;
 }

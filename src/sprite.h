@@ -15,6 +15,8 @@ class Sprite {
   public:
     Sprite(ImageManager*);
     virtual ~Sprite();
+    void setPosition(sf::Vector2f);
+    void setPosition(float, float);
     Move::Type getMove();
     void setMove(Move::Type);
     bool isMoving(Move::Type);
