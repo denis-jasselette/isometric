@@ -6,6 +6,7 @@ Game::Game() {
   view = window->GetDefaultView();
   center = view.GetCenter();
   window->SetView(view);
+  scroll = Move::NONE;
 
   imageMgr = new ImageManager();
   cannon = new Cannon(imageMgr);
@@ -32,6 +33,9 @@ void Game::run() {
         case sf::Event::Resized:
           onResized(evt);
           break;
+        case sf::Event::MouseMoved:
+          onMouseMoved(evt);
+          break;
         case sf::Event::KeyPressed:
           onKeyPressed(evt);
           break;
@@ -52,8 +56,21 @@ void Game::run() {
   }
 }
 
-void Game::update() {
+void Game::scrollView() {
+  if (scroll & Move::LEFT)
+    center.x -= 1;
+  if (scroll & Move::RIGHT)
+    center.x += 1;
+  if (scroll & Move::UP)
+    center.y -= 1;
+  if (scroll & Move::DOWN)
+    center.y += 1;
+
   view.SetCenter(center);
+}
+
+void Game::update() {
+  scrollView();
   cannon->update();
 }
 
@@ -65,6 +82,22 @@ void Game::paint() {
 
 void Game::onResized(sf::Event evt) {
   view.SetHalfSize(sf::Vector2f(evt.Size.Width / 2.0, evt.Size.Height / 2.0));
+}
+
+#define SCROLL_ZONE 20
+
+void Game::onMouseMoved(sf::Event evt) {
+  scroll = Move::NONE;
+  sf::Vector2f cur = window->ConvertCoords(evt.MouseMove.X, evt.MouseMove.Y);
+  sf::Rect<float> rect = view.GetRect();
+  if (cur.x < rect.Left + SCROLL_ZONE)
+    scroll = (Move::Type)(scroll | Move::LEFT);
+  if (cur.x > rect.Right - SCROLL_ZONE)
+    scroll = (Move::Type)(scroll | Move::RIGHT);
+  if (cur.y < rect.Top + SCROLL_ZONE)
+    scroll = (Move::Type)(scroll | Move::UP);
+  if (cur.y > rect.Bottom - SCROLL_ZONE)
+    scroll = (Move::Type)(scroll | Move::DOWN);
 }
 
 void Game::onKeyPressed(sf::Event evt) {

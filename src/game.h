@@ -13,16 +13,19 @@ class Game {
     void run();
 
   private:
+    void scrollView();
     void update();
     void paint();
 
     void onResized(sf::Event);
+    void onMouseMoved(sf::Event);
     void onKeyPressed(sf::Event);
     void onKeyReleased(sf::Event);
 
     sf::RenderWindow *window;
     sf::Vector2f center;
     sf::View view;
+    Move::Type scroll;
     ImageManager *imageMgr;
     Cannon *cannon;
     TileSet *set;
