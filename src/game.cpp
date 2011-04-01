@@ -2,7 +2,10 @@
 #include "log.h"
 
 Game::Game() {
-  window = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "Sprite test", sf::Style::Close);
+  window = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "Sprite test");
+  view = window->GetDefaultView();
+  center = view.GetCenter();
+
   imageMgr = new ImageManager();
   cannon = new Cannon(imageMgr);
   set = new TileSet(imageMgr, 20, 20);
@@ -16,6 +19,7 @@ Game::~Game() {
 }
 
 void Game::run() {
+  window->SetFramerateLimit(60);
   bool running = true;
   while (running) {
     sf::Event evt;
@@ -49,6 +53,7 @@ void Game::update() {
 }
 
 void Game::paint() {
+  view.SetCenter(center);
   window->Clear(sf::Color::Black);
   set->paint(window);
   cannon->paint(window);

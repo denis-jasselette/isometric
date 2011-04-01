@@ -20,6 +20,8 @@ class Game {
     void onKeyReleased(sf::Event);
 
     sf::RenderWindow *window;
+    sf::Vector2f center;
+    sf::View view;
     ImageManager *imageMgr;
     Cannon *cannon;
     TileSet *set;
