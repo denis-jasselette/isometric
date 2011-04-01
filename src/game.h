@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "imageManager.h"
-#include "tile.h"
+#include "tileset.h"
 #include "cannon.h"
 
 class Game {
@@ -22,7 +22,7 @@ class Game {
     sf::RenderWindow *window;
     ImageManager *imageMgr;
     Cannon *cannon;
-    Tile ***set;
+    TileSet *set;
 };
 
 #endif	/* _GAME_H_ */

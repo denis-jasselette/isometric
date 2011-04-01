@@ -1,33 +1,15 @@
 #include "game.h"
 #include "log.h"
 
-/* FIXME: clean up */
-#define SET_HEIGHT 20
-#define SET_WIDTH 20
-
 Game::Game() {
   window = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "Sprite test", sf::Style::Close);
   imageMgr = new ImageManager();
   cannon = new Cannon(imageMgr);
-
-  set = new Tile**[SET_HEIGHT];
-  for (int i = 0; i < SET_HEIGHT; i++) {
-    set[i] = new Tile*[SET_WIDTH];
-    for (int j = 0; j < SET_WIDTH; j++) {
-      set[i][j] = new Tile(imageMgr);
-      set[i][j]->setPosition(i, j);
-    }
-  }
+  set = new TileSet(imageMgr, 20, 20);
 }
 
 Game::~Game() {
-  for (int i = 0; i < SET_HEIGHT; i++) {
-    for (int j = 0; j < SET_WIDTH; j++)
-      delete set[i][j];
-    delete[] set[i];
-  }
-  delete[] set;
-
+  delete set;
   delete cannon;
   delete imageMgr;
   delete window;
@@ -68,12 +50,7 @@ void Game::update() {
 
 void Game::paint() {
   window->Clear(sf::Color::Black);
-
-  for (int i = 0; i < SET_HEIGHT; i++) {
-    for (int j = 0; j < SET_WIDTH; j++)
-      set[i][j]->paint(window);
-  }
-
+  set->paint(window);
   cannon->paint(window);
 }
 
