@@ -1,10 +1,12 @@
+#include <sys/stat.h>
 #include "imageManager.h"
 #include "log.h"
 
 ImageManager::ImageManager() {
   std::string dirs[] = { "res", "../res" };
   for (size_t i = 0; i < sizeof(dirs); i++) {
-    if (true /*FIXME: dirs[i] exists*/) {
+    struct stat st;
+    if (stat(dirs[i].c_str(), &st) == 0 && S_ISDIR(st.st_mode)) {
       resDir = dirs[i];
       break;
     }
