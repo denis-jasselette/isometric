@@ -12,6 +12,7 @@ class Game {
     Game();
     ~Game();
     void run();
+    void exit();
 
   private:
     void scrollTo(const sf::Vector2f&);
@@ -26,6 +27,7 @@ class Game {
     void onKeyPressed(sf::Event);
     void onKeyReleased(sf::Event);
 
+    bool running;
     sf::RenderWindow *window;
     sf::Vector2f center;
     sf::View view;

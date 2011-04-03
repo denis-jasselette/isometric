@@ -24,13 +24,13 @@ Game::~Game() {
 
 void Game::run() {
   window->SetFramerateLimit(60);
-  bool running = true;
+  running = true;
   while (running) {
     sf::Event evt;
     while (window->GetEvent(evt)) {
       switch (evt.Type) {
         case sf::Event::Closed:
-          running = false;
+          exit();
           break;
         case sf::Event::Resized:
           onResized(evt);
@@ -55,13 +55,18 @@ void Game::run() {
       }
     }
 
+    if (!running)
+      break;
+
     update();
     paint();
     window->Display();
-
-    /*if (running)
-      sleep(1);*/
   }
+}
+
+void Game::exit() {
+  running = false;
+  window->Close();
 }
 
 void Game::scrollTo(const sf::Vector2f &c) {
@@ -158,6 +163,10 @@ void Game::onKeyPressed(sf::Event evt) {
 void Game::onKeyReleased(sf::Event evt) {
   Move::Type base = cannon->getMove();
   switch (evt.Key.Code) {
+    case sf::Key::Escape:
+    case sf::Key::Q:
+      exit();
+      break;
     case sf::Key::Right:
       cannon->setMove((Move::Type)(base & ~Move::FORWARD));
       break;
