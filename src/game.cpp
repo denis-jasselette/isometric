@@ -10,13 +10,13 @@ Game::Game() {
 
   imageMgr = new ImageManager();
   cursor = new Cursor(window, imageMgr);
-  cannon = new Cannon(imageMgr);
-  set = new TileSet(imageMgr, 20, 20);
+  set = new TileSet(imageMgr, 40, 40);
+  cannon = new Cannon(imageMgr, set);
 }
 
 Game::~Game() {
-  delete set;
   delete cannon;
+  delete set;
   delete cursor;
   delete imageMgr;
   delete window;

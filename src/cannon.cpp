@@ -2,7 +2,7 @@
 #include "log.h"
 #include "cannon.h"
 
-Cannon::Cannon(ImageManager *imageMgr) : Sprite(imageMgr) {
+Cannon::Cannon(ImageManager *imageMgr, TileSet *tileset) : Sprite(imageMgr, tileset) {
   setImage("cannon");
 }
 

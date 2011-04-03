@@ -10,6 +10,10 @@ class TileSet {
     TileSet(ImageManager*, int width, int height);
     ~TileSet();
 
+    sf::Vector2f convertTileToView(int, int);
+    sf::Vector2i convertViewToTile(float, float);
+    bool contains(sf::Vector2i);
+    Tile *getTileAt(float x, float y);
     void paint(sf::RenderWindow *window);
 
   private:

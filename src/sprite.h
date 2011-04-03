@@ -4,27 +4,16 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include "imageManager.h"
-
-namespace Move {
-    enum Type {
-      NONE = 0,
-      FORWARD = 1,
-      BACKWARD = 1 << 1,
-      TURN_CW = 1 << 2,
-      TURN_CCW = 1 << 3,
-      LEFT = 1 << 4,
-      RIGHT = 1 << 5,
-      UP = 1 << 6,
-      DOWN = 1 << 7,
-    };
-}
+#include "tileset.h"
+#include "move.h"
 
 class Sprite {
   public:
-    Sprite(ImageManager*);
+    Sprite(ImageManager*, TileSet*);
     virtual ~Sprite();
     void setPosition(sf::Vector2f);
     void setPosition(float, float);
+    void translate(float, float);
     Move::Type getMove();
     void setMove(Move::Type);
     bool isMoving(Move::Type);
@@ -36,6 +25,7 @@ class Sprite {
     void setRotation(float);
 
     ImageManager *imageMgr;
+    TileSet *tileset;
     Move::Type move;
     float rotation;
     int frameWidth;

@@ -2,11 +2,6 @@
 #include "log.h"
 #include "tile.h"
 
-#define ORIG_X 400
-#define ORIG_Y   0
-#define TILE_WIDTH_2  16
-#define TILE_HEIGHT_2  8
-
 Tile::Tile(ImageManager *imageMgr) : imageMgr(imageMgr) {
   sprite = new sf::Sprite();
   setImage("grass");//FIXME

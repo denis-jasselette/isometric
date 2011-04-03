@@ -2,7 +2,10 @@
 #include "log.h"
 #include "sprite.h"
 
-Sprite::Sprite(ImageManager *imageMgr) : imageMgr(imageMgr) {
+Sprite::Sprite(ImageManager *imageMgr, TileSet *tileset) {
+  this->imageMgr = imageMgr;
+  this->tileset = tileset;
+
   move = Move::NONE;
   rotation = 0;
   frameWidth = 32;
@@ -23,11 +26,15 @@ void Sprite::setImage(std::string name) {
 }
 
 void Sprite::setPosition(sf::Vector2f pos) {
-  sprite->SetPosition(pos);
+  setPosition(pos.x, pos.y);
 }
 
 void Sprite::setPosition(float x, float y) {
   sprite->SetPosition(x, y);
+}
+
+void Sprite::translate(float x, float y) {
+  setPosition(sprite->GetPosition() + sf::Vector2f(x, y));
 }
 
 Move::Type Sprite::getMove() {
@@ -70,7 +77,7 @@ void Sprite::update() {
 
   float angle = (direction > 0)? rotation : rotation + 180;
   float rad_angle = M_PI * angle / 180;
-  sprite->Move(cos(rad_angle), -sin(rad_angle));
+  translate(cos(rad_angle), -sin(rad_angle));
 }
 
 int Sprite::getIndex() {

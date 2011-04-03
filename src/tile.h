@@ -3,8 +3,13 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
-#include "sprite.h"//FIXME: factorize Move
+#include "move.h"
 #include "imageManager.h"
+
+#define ORIG_X 400
+#define ORIG_Y   0
+#define TILE_WIDTH_2  16
+#define TILE_HEIGHT_2  8
 
 class Tile {
   public:
