@@ -7,9 +7,11 @@
 class Cannon : public Sprite {
   public:
     Cannon(ImageManager*, TileSet*);
-    ~Cannon();
-    void update();
-    void paint(sf::RenderWindow*);
+
+    sf::Shape getBase();
+
+  private:
+    sf::Shape base;
 };
 
 #endif /* _CANNON_H_ */

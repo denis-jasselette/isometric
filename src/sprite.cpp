@@ -12,6 +12,7 @@ Sprite::Sprite(ImageManager *imageMgr, TileSet *tileset) {
 
   sprite = new sf::Sprite();
   sprite->SetPosition(400, 300);//FIXME
+  sprite->SetCenter(frameWidth / 2, frameWidth / 2);
   nbDirections = 1;
 }
 
@@ -60,6 +61,11 @@ float Sprite::clampAngle(float angle) {
   return fmod(angle, 360);
 }
 
+sf::Vector2i Sprite::getAbsoluteCenter() {
+  sf::Vector2f absCenter = sprite->GetPosition();
+  return sf::Vector2i(absCenter.x, absCenter.y);
+}
+
 void Sprite::update() {
   if (move & Move::TURN_CCW)
     setRotation(rotation + 1);
@@ -101,6 +107,7 @@ void Sprite::selectFrame() {
 }
 
 void Sprite::paint(sf::RenderWindow *window) {
+  window->Draw(getBase());
   selectFrame();
   window->Draw(*sprite);
 }

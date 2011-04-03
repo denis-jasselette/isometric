@@ -11,18 +11,21 @@ class Sprite {
   public:
     Sprite(ImageManager*, TileSet*);
     virtual ~Sprite();
+
     void setPosition(sf::Vector2f);
     void setPosition(float, float);
     void translate(float, float);
     Move::Type getMove();
     void setMove(Move::Type);
     bool isMoving(Move::Type);
+    sf::Vector2i getAbsoluteCenter();
     virtual void update();
     virtual void paint(sf::RenderWindow*);
 
   protected:
     void setImage(std::string);
     void setRotation(float);
+    virtual sf::Shape getBase() = 0;
 
     ImageManager *imageMgr;
     TileSet *tileset;
