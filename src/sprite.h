@@ -19,7 +19,7 @@ class Sprite {
     void setMove(Move::Type);
     bool isMoving(Move::Type);
     sf::Vector2i getAbsoluteCenter();
-    virtual void update();
+    virtual void update(float delta);
     virtual void paint(sf::RenderWindow*);
 
   protected:

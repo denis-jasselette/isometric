@@ -66,11 +66,13 @@ sf::Vector2i Sprite::getAbsoluteCenter() {
   return sf::Vector2i(absCenter.x, absCenter.y);
 }
 
-void Sprite::update() {
+void Sprite::update(float delta) {
+  static const float ROT_SPEED = 90;
+  float dangle = delta * ROT_SPEED;
   if (move & Move::TURN_CCW)
-    setRotation(rotation + 1);
+    setRotation(rotation + dangle);
   if (move & Move::TURN_CW)
-    setRotation(rotation - 1);
+    setRotation(rotation - dangle);
 
   int direction = 0;
   if (move & Move::FORWARD)
@@ -81,9 +83,11 @@ void Sprite::update() {
   if (direction == 0)
     return;
 
+  static const float TRANS_SPEED = 40;
+  float dist = delta * TRANS_SPEED;
   float angle = (direction > 0)? rotation : rotation + 180;
   float rad_angle = M_PI * angle / 180;
-  translate(cos(rad_angle), -sin(rad_angle));
+  translate(cos(rad_angle) * dist, -sin(rad_angle) * dist);
 }
 
 int Sprite::getIndex() {

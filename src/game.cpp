@@ -1,8 +1,11 @@
 #include "game.h"
 #include "log.h"
 
+#define FRAMERATE_LIMIT 60
+
 Game::Game() {
   window = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "Sprite test");
+  ticker = new Ticker(FRAMERATE_LIMIT);
   view = window->GetDefaultView();
   center = view.GetCenter();
   window->SetView(view);
@@ -19,11 +22,11 @@ Game::~Game() {
   delete set;
   delete cursor;
   delete imageMgr;
+  delete ticker;
   delete window;
 }
 
 void Game::run() {
-  window->SetFramerateLimit(60);
   running = true;
   while (running) {
     sf::Event evt;
@@ -58,7 +61,11 @@ void Game::run() {
     if (!running)
       break;
 
-    update();
+    float delta = ticker->tick();
+    if (delta < 0)
+      continue;
+
+    update(delta);
     paint();
     window->Display();
   }
@@ -74,28 +81,56 @@ void Game::scrollTo(const sf::Vector2f &c) {
   view.SetCenter(center);
 }
 
-void Game::scrollView() {
+void Game::scrollView(float delta) {
+  static const float SCROLL_SPEED = 20;
+  float dist = delta * SCROLL_SPEED;
   if (scroll & Move::LEFT)
-    center.x -= 1;
+    center.x -= dist;
   if (scroll & Move::RIGHT)
-    center.x += 1;
+    center.x += dist;
   if (scroll & Move::UP)
-    center.y -= 1;
+    center.y -= dist;
   if (scroll & Move::DOWN)
-    center.y += 1;
+    center.y += dist;
 
   scrollTo(center);
 }
 
-void Game::update() {
-  scrollView();
-  cannon->update();
+void Game::update(float delta) {
+  scrollView(delta);
+  cannon->update(delta);
+}
+
+void Game::paintDebug() {
+  static sf::Font font;
+  static sf::String out;
+  static bool loaded = false;
+  if (!loaded) {
+    if (!font.LoadFromFile("arial.ttf")) {
+      log("Font could not be loaded");
+      exit();
+      return;
+    }
+
+    out.SetFont(font);
+    out.SetSize(12);
+    out.SetColor(sf::Color::White);
+    loaded = true;
+  }
+
+  std::ostringstream s;
+  s << "FPS: " << ticker->getFramerate();
+  out.SetText(s.str());
+
+  out.SetPosition(window->ConvertCoords(0, 0));
+  window->Draw(out);
 }
 
 void Game::paint() {
   window->Clear(sf::Color::Black);
   set->paint(window);
   cannon->paint(window);
+  paintDebug();
   cursor->paint();
 }
 
@@ -166,6 +201,9 @@ void Game::onKeyReleased(sf::Event evt) {
     case sf::Key::Escape:
     case sf::Key::Q:
       exit();
+      break;
+    case sf::Key::P:
+      ticker->togglePause();
       break;
     case sf::Key::Right:
       cannon->setMove((Move::Type)(base & ~Move::FORWARD));

@@ -2,6 +2,7 @@
 #define	_GAME_H_
 
 #include <SFML/Graphics.hpp>
+#include "ticker.h"
 #include "imageManager.h"
 #include "cursor.h"
 #include "tileset.h"
@@ -16,8 +17,9 @@ class Game {
 
   private:
     void scrollTo(const sf::Vector2f&);
-    void scrollView();
-    void update();
+    void scrollView(float);
+    void update(float);
+    void paintDebug();
     void paint();
 
     void onResized(sf::Event);
@@ -29,6 +31,7 @@ class Game {
 
     bool running;
     sf::RenderWindow *window;
+    Ticker *ticker;
     sf::Vector2f center;
     sf::View view;
     Move::Type scroll;
