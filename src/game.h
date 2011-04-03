@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "imageManager.h"
+#include "cursor.h"
 #include "tileset.h"
 #include "cannon.h"
 
@@ -26,6 +27,7 @@ class Game {
     sf::Vector2f center;
     sf::View view;
     Move::Type scroll;
+    Cursor *cursor;
     ImageManager *imageMgr;
     Cannon *cannon;
     TileSet *set;

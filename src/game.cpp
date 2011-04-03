@@ -9,6 +9,7 @@ Game::Game() {
   scroll = Move::NONE;
 
   imageMgr = new ImageManager();
+  cursor = new Cursor(window, imageMgr);
   cannon = new Cannon(imageMgr);
   set = new TileSet(imageMgr, 20, 20);
 }
@@ -16,6 +17,7 @@ Game::Game() {
 Game::~Game() {
   delete set;
   delete cannon;
+  delete cursor;
   delete imageMgr;
   delete window;
 }
@@ -78,6 +80,7 @@ void Game::paint() {
   window->Clear(sf::Color::Black);
   set->paint(window);
   cannon->paint(window);
+  cursor->paint();
 }
 
 void Game::onResized(sf::Event evt) {
@@ -87,9 +90,11 @@ void Game::onResized(sf::Event evt) {
 #define SCROLL_ZONE 20
 
 void Game::onMouseMoved(sf::Event evt) {
+  cursor->onMoved(evt.MouseMove);
+
   scroll = Move::NONE;
-  sf::Vector2f cur = window->ConvertCoords(evt.MouseMove.X, evt.MouseMove.Y);
   sf::Rect<float> rect = view.GetRect();
+  sf::Vector2f cur = cursor->getViewPosition();
   if (cur.x < rect.Left + SCROLL_ZONE)
     scroll = (Move::Type)(scroll | Move::LEFT);
   if (cur.x > rect.Right - SCROLL_ZONE)
