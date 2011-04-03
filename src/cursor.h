@@ -13,7 +13,7 @@ class Cursor {
     sf::Vector2i getPosition();
     sf::Vector2f getViewPosition();
     void paint();
-    
+
   private:
     void centerCursor();
 

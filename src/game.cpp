@@ -35,6 +35,12 @@ void Game::run() {
         case sf::Event::Resized:
           onResized(evt);
           break;
+        case sf::Event::MouseButtonPressed:
+          onMouseButtonPressed(evt);
+          break;
+        case sf::Event::MouseButtonReleased:
+          onMouseButtonReleased(evt);
+          break;
         case sf::Event::MouseMoved:
           onMouseMoved(evt);
           break;
@@ -58,6 +64,11 @@ void Game::run() {
   }
 }
 
+void Game::scrollTo(const sf::Vector2f &c) {
+  center = c;
+  view.SetCenter(center);
+}
+
 void Game::scrollView() {
   if (scroll & Move::LEFT)
     center.x -= 1;
@@ -68,7 +79,7 @@ void Game::scrollView() {
   if (scroll & Move::DOWN)
     center.y += 1;
 
-  view.SetCenter(center);
+  scrollTo(center);
 }
 
 void Game::update() {
@@ -103,6 +114,25 @@ void Game::onMouseMoved(sf::Event evt) {
     scroll = (Move::Type)(scroll | Move::UP);
   if (cur.y > rect.Bottom - SCROLL_ZONE)
     scroll = (Move::Type)(scroll | Move::DOWN);
+}
+
+void Game::onMouseButtonPressed(sf::Event evt) {
+  switch (evt.MouseButton.Button) {
+    case sf::Mouse::Left:
+      break;
+    default:
+      break;
+  }
+}
+
+void Game::onMouseButtonReleased(sf::Event evt) {
+  switch (evt.MouseButton.Button) {
+    case sf::Mouse::Left:
+      scrollTo(cursor->getViewPosition());
+      break;
+    default:
+      break;
+  }
 }
 
 void Game::onKeyPressed(sf::Event evt) {

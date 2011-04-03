@@ -14,11 +14,14 @@ class Game {
     void run();
 
   private:
+    void scrollTo(const sf::Vector2f&);
     void scrollView();
     void update();
     void paint();
 
     void onResized(sf::Event);
+    void onMouseButtonPressed(sf::Event);
+    void onMouseButtonReleased(sf::Event);
     void onMouseMoved(sf::Event);
     void onKeyPressed(sf::Event);
     void onKeyReleased(sf::Event);
