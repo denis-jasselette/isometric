@@ -20,9 +20,9 @@ ImageManager::~ImageManager() {
 }
 
 sf::Image *ImageManager::get(std::string name) {
-  sf::Image *value = pool[name];
-  if (value == NULL) {
-    sf::Image *image = new sf::Image();
+  sf::Image *image = pool[name];
+  if (image == NULL) {
+    image = new sf::Image();
     if (!image->LoadFromFile(nameToFile(name))) {
       log("Error: Loading of `" + name + "' failed");
       return NULL;
@@ -30,10 +30,9 @@ sf::Image *ImageManager::get(std::string name) {
 
     image->SetSmooth(false);
     pool[name] = image;
-    return image;
   }
 
-  return pool[name];
+  return image;
 }
 
 std::string ImageManager::nameToFile(std::string name) {
